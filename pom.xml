@@ -3,8 +3,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-spring-boot</artifactId>
+    <groupId>se.tuomas</groupId>
+    <artifactId>vader2</artifactId>
     <version>0.1.0</version>
 
     <parent>
@@ -18,6 +18,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+		<dependency>
+    			<groupId>org.apache.commons</groupId>
+    			<artifactId>commons-lang3</artifactId>
+   			<version>3.7</version>
+		</dependency>
+        
         <!-- tag::actuator[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,7 +48,7 @@
     </dependencies>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.9</java.version>
     </properties>
 
     <build>
