@@ -1,0 +1,17 @@
+<h1>Graf över {{sensorName}}</h1>
+
+<div ng-controller="GraphController">
+    <nvd3-line-chart
+        data="exampleData"
+        showXAxis="true"
+        showYAxis="true"
+        tooltips="true"
+        interactive="true"
+        width="1000"
+        height="500"
+        xAxisTickFormat="xAxisTickFormatFunction()">
+    </nvd3-line-chart>
+    <button ng-click="showMonth()" >
+        Månad
+    </button>
+</div>

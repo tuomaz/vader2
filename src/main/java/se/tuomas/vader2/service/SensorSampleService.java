@@ -71,11 +71,9 @@ public class SensorSampleService {
         return samples;
     }
 
-    public List<SensorSample> getLatestByNames(final List<String> names) {
-        List<SensorSample> samples = new ArrayList<SensorSample>();
-        for (String name : names) {
-            samples.add(getLatestByName(name));
-        }
+    public List<SensorSample> getLatest() {
+        List<SensorSample> samples = jdbcTemplate.query(
+                "select s.ts, s.updated, s.value, s.type, s.name from sample s inner join (select name, max(ts) as Newest from sample group by name) s2 on s.name = s2.name and s.ts = s2.Newest", new SensorSampleRowMapper());
         return processSampleDataService.processSamples(samples);
     }
     
