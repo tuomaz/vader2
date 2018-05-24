@@ -72,8 +72,10 @@ public class SensorSampleService {
     }
 
     public List<SensorSample> getLatest() {
+        // 180524: select ts, updated, value, type, name from sample where ts in (select max(ts) from sample group by name);
+        // BEFORE: select s.ts, s.updated, s.value, s.type, s.name from sample s inner join (select name, max(ts) as Newest from sample group by name) s2 on s.name = s2.name and s.ts = s2.Newest
         List<SensorSample> samples = jdbcTemplate.query(
-                "select s.ts, s.updated, s.value, s.type, s.name from sample s inner join (select name, max(ts) as Newest from sample group by name) s2 on s.name = s2.name and s.ts = s2.Newest", new SensorSampleRowMapper());
+                "select ts, updated, value, type, name from sample where ts in (select max(ts) from sample group by name)", new SensorSampleRowMapper());
         return processSampleDataService.processSamples(samples);
     }
     

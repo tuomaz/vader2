@@ -1,11 +1,10 @@
 <h1>Temperaturer</h1>
     <table class="table table-striped table-bordered">
-        <tr ng-repeat="sample in samples">
+        <tr ng-repeat="sample in samples" ng-if="!sample.old">
             <td><a href="#/graph/{{sample.name}}">{{sample.realName}}</a></td>
             <td>
-            	<div ng-if="sample.old == false && sample.type == 'TEMPERATURE'">{{sample.roundedValue}}°</div>
-            	<div ng-if="sample.old == false && sample.type == 'BAROMETRIC'">{{sample.roundedValue}} hPa</div>
-            	<div ng-if="sample.old == true">-</div>
+                <div ng-if="sample.old == false && sample.type == 'TEMPERATURE'">{{sample.roundedValue}}°</div>
+                <div ng-if="sample.old == false && sample.type == 'BAROMETRIC'">{{sample.roundedValue}} hPa</div>
             </td>
         </tr>
     </table>
