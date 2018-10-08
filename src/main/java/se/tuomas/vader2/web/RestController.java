@@ -45,7 +45,7 @@ public class RestController {
     @ResponseBody
     @RequestMapping(value = "/sample/get", produces = "application/json")
     public List<SensorSample> getLatest() {
-        return sss.getLatest();
+        return sss.getCached();
     }
     
     @ResponseBody

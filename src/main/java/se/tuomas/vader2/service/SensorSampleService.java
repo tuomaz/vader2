@@ -1,9 +1,11 @@
 package se.tuomas.vader2.service;
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -19,7 +21,9 @@ import se.tuomas.vader2.service.ProcessSampleDataService;
 
 @Service
 public class SensorSampleService {
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+    
+    private final Map<String, SensorSample> cache = new ConcurrentHashMap<>();
 
     @Autowired
     ProcessSampleDataService processSampleDataService;
@@ -30,7 +34,16 @@ public class SensorSampleService {
     }
 
     public void save(final SensorSample sample) {
+        cache.put(sample.getName(), sample);
         jdbcTemplate.update("insert into sample (ts, value, type, name) values (?, ?, ?, ?)", sample.getTimestamp(), sample.getValue(), sample.getType().toString(), sample.getName());
+    }
+
+    public List<SensorSample> getCached() {
+        if (cache.size() == 0) {
+            return getLatest();
+        } else {
+            return processSampleDataService.processSamples(new ArrayList<>(cache.values()));
+        }
     }
 
     public SensorSample getOne() {
@@ -78,7 +91,7 @@ public class SensorSampleService {
                 "select ts, updated, value, type, name from sample where ts in (select max(ts) from sample group by name)", new SensorSampleRowMapper());
         return processSampleDataService.processSamples(samples);
     }
-    
+
     public GraphData getGraphData(String sensor, int hours) {
         List<SensorSample> samples = getByNameAndHours(sensor, hours);
         GraphData gd = convertSamplesToGraphData(samples);
