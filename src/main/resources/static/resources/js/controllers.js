@@ -12,7 +12,14 @@ vaderControllers.controller('StartController', [ '$scope', '$http', '$timeout',
                     url : 'rest/sample/get',
                     cache : false
                 }).success(function(data) {
+                    var groups = {};
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        groups[data[i].groupNice] = true
+                    }
+
                     $scope.samples = data;
+                    $scope.groups = groups;
                 });
             };
 

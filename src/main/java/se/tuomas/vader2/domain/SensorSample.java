@@ -10,6 +10,8 @@ public class SensorSample {
     private Date timestamp;
     private Date updated;
     private boolean old;
+    private String group;
+    private String groupNice;
 
     public String getName() {
         return name;
@@ -71,4 +73,18 @@ public class SensorSample {
         this.realName = realName;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(final String group) {
+        this.group = group;
+    }
+    public String getGroupNice() {
+        return groupNice;
+    }
+
+    public void setGroupNice(final String groupNice) {
+        this.groupNice = groupNice;
+    }
 }

@@ -3,6 +3,8 @@ package se.tuomas.vader2.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Comparator;
+import java.util.Collections;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,23 @@ public class ProcessSampleDataService {
             if (sample.getTimestamp().before(recent)) {
                 sample.setOld(true);
             }
+            String[] group = sample.getName().split("-", 2);
+            if (group.length > 0 && group[0] != null) {
+                sample.setGroup(group[0]);
+                String niceName = messageSource.getMessage(group[0], null, "", locale);
+                if (StringUtils.isBlank(niceName)) {
+                    niceName = group[0];
+                }
+            sample.setGroupNice(niceName);
+            }
         }
+
+        Collections.sort(samples, new Comparator<SensorSample>() {
+            @Override
+            public int compare(SensorSample a, SensorSample b) {
+                return a.getRealName().compareTo(b.getRealName());
+            }
+        });
 
         return samples;
     }
